@@ -5,8 +5,10 @@ function App() {
     message: "",
   })
 
+  const base_url = 'https://andrewrobles.pythonanywhere.com'
+
   useEffect(() => {
-    fetch('http://localhost:8000/helloworld/')
+    fetch(base_url + '/helloworld/')
     .then(response => response.json())
     .then(data => saveMessage(data.message))
     .catch( err => {
