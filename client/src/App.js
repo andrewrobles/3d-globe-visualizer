@@ -1,9 +1,32 @@
-import './App.css';
+import {useState, useEffect} from 'react'
 
 function App() {
+  const [state, setState] = useState({
+    message: "",
+  })
+
+  useEffect(() => {
+    getMessage()
+  }, [])
+
+  const getMessage = () => {
+    fetch('http://localhost:8000/helloworld/')
+    .then(response => response.json())
+    .then(data => saveMessage(data.message))
+    .catch( err => {
+        saveMessage('Client could not fetch from server')
+    })
+  }
+
+  const saveMessage = (message) => {
+      setState({
+        message: message,
+      })
+  }
+
   return (
     <h1 className="text-3xl font-bold underline">
-      Hello world!
+      {state.message}
     </h1>
   );
 }
