@@ -136,6 +136,10 @@ REST_FRAMEWORK = {
 }
 
 # CORS
+CORS_ALLOWED_ORIGINS = (
+    'https://blue-xi.vercel.app',
+)
+
 CORS_ORIGIN_WHITELIST = (
     'https://blue-xi.vercel.app',
 )
