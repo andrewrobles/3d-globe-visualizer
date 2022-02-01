@@ -11,5 +11,6 @@ router.register(r'groups', views.GroupViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('helloworld/', views.helloworld, name='helloworld')
+    path('helloworld/', views.helloworld, name='helloworld'),
+    path('markers/', views.create_marker, name='marker'),
 ]

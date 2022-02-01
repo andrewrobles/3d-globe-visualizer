@@ -5,6 +5,27 @@ from server.api.serializers import UserSerializer, GroupSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from .models import Marker
+
+@api_view(['POST'])
+def create_marker(request):
+    Marker.objects.create(
+        latitude=request.data['latitude'],
+        longitude=request.data['longitude'],
+        altitude=request.data['altitude']
+    )
+
+    markers = []
+    for current_marker in Marker.objects.all():
+        markers.append({
+            'id': current_marker.id,
+            'latitude': current_marker.latitude,
+            'longitude': current_marker.longitude,
+            'altitude': current_marker.altitude
+        })
+
+    return Response(markers)
+
 @api_view(['GET'])
 def helloworld(request):
     return Response({'message': 'Hello World!'})
