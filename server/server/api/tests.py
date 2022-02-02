@@ -18,8 +18,21 @@ class MarkerTestCase(TestCase):
     def test_create_marker(self):
         factory = APIClient()
         request_body = {'latitude': 123.45678, 'longitude': -901.23456, 'altitude': 789.01234}
-
+    
         actual = factory.post('/markers/', request_body, format='json').data
+        expected = [{'id': 1, 'latitude': Decimal('123.45678'), 'longitude': Decimal('-901.23456'), 'altitude': Decimal('789.01234')}]
+
+        self.assertEqual(actual, expected)
+
+    def test_get_markers(self):
+        # Create marker
+        factory = APIClient()
+        request_body = {'latitude': 123.45678, 'longitude': -901.23456, 'altitude': 789.01234}
+
+        factory.post('/markers/', request_body, format='json')
+
+        # Get markers
+        actual = factory.get('/markers/', format='json').data
         expected = [{'id': 1, 'latitude': Decimal('123.45678'), 'longitude': Decimal('-901.23456'), 'altitude': Decimal('789.01234')}]
 
         self.assertEqual(actual, expected)

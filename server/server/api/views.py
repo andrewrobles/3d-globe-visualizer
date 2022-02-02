@@ -7,24 +7,23 @@ from rest_framework.response import Response
 
 from .models import Marker
 
-@api_view(['POST'])
-def create_marker(request):
-    Marker.objects.create(
-        latitude=request.data['latitude'],
-        longitude=request.data['longitude'],
-        altitude=request.data['altitude']
-    )
+@api_view(['POST', 'GET'])
+def handle_markers_request(request):
+    if request.method == 'POST':
+        Marker.objects.create(
+            latitude=request.data['latitude'],
+            longitude=request.data['longitude'],
+            altitude=request.data['altitude']
+        )
 
-    markers = []
-    for current_marker in Marker.objects.all():
-        markers.append({
-            'id': current_marker.id,
-            'latitude': current_marker.latitude,
-            'longitude': current_marker.longitude,
-            'altitude': current_marker.altitude
-        })
-
-    return Response(markers)
+    # Return all markers in response
+    return Response([{
+            'id': m.id, 
+            'latitude': m.latitude, 
+            'longitude': m.longitude, 
+            'altitude': m.altitude
+        } for m in Marker.objects.all()
+    ])
 
 @api_view(['GET'])
 def helloworld(request):
