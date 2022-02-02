@@ -25,10 +25,25 @@ def handle_markers_request(request):
         } for m in Marker.objects.all()
     ])
 
+@api_view(['DELETE'])
+def delete_marker(request, pk):
+    filtered_markers = Marker.objects.filter(pk=pk)
+
+    if filtered_markers.exists():
+        filtered_markers.first().delete()
+    
+    # Return all markers in response
+    return Response([{
+            'id': m.id, 
+            'latitude': m.latitude, 
+            'longitude': m.longitude, 
+            'altitude': m.altitude
+        } for m in Marker.objects.all()
+    ])
+
 @api_view(['GET'])
 def helloworld(request):
     return Response({'message': 'Hello World!'})
-
 
 class UserViewSet(viewsets.ModelViewSet):
     """

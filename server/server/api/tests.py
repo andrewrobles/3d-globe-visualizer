@@ -36,3 +36,16 @@ class MarkerTestCase(TestCase):
         expected = [{'id': 1, 'latitude': Decimal('123.45678'), 'longitude': Decimal('-901.23456'), 'altitude': Decimal('789.01234')}]
 
         self.assertEqual(actual, expected)
+
+    def test_delete_markers(self):
+        # Create marker
+        factory = APIClient()
+        request_body = {'latitude': 123.45678, 'longitude': -901.23456, 'altitude': 789.01234}
+
+        factory.post('/markers/', request_body, format='json')
+
+        # Delete marker
+        actual = factory.delete('/markers/1/delete/', format='json').data
+        expected = []
+
+        self.assertEqual(actual, expected)
