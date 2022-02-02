@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework import permissions
-from server.api.serializers import UserSerializer, GroupSerializer
+from server.api.serializers import UserSerializer, GroupSerializer, MarkerSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -38,6 +38,11 @@ def get_markers():
             'altitude': m.altitude
         } for m in Marker.objects.all()
     ])
+
+class MarkerViewSet(viewsets.ModelViewSet):
+    queryset = Marker.objects.all()
+    serializer_class = MarkerSerializer
+    permission_classes = [permissions.AllowAny]
 
 class UserViewSet(viewsets.ModelViewSet):
     """

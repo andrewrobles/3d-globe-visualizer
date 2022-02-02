@@ -28,7 +28,7 @@ class MarkerTestCase(TestCase):
 
         self.assertEqual(actual, expected)
 
-    def test_delete_markers(self):
+    def test_delete_marker(self):
         # Create marker
         factory = APIClient()
         request_body = {'latitude': 123.45678, 'longitude': -901.23456, 'altitude': 789.01234}
