@@ -5,15 +5,6 @@ from decimal import Decimal
 
 from .models import Marker
 
-class HelloWorldTestCase(TestCase):
-    def test_get_hello_world(self):
-        factory = APIClient()
-
-        actual = factory.get('/helloworld/', format='json').data
-        expected = {'message': 'Hello World!'}
-
-        self.assertEqual(actual, expected)
-
 class MarkerTestCase(TestCase):
     def test_create_marker(self):
         factory = APIClient()
@@ -45,7 +36,7 @@ class MarkerTestCase(TestCase):
         factory.post('/markers/', request_body, format='json')
 
         # Delete marker
-        actual = factory.delete('/markers/1/delete/', format='json').data
+        actual = factory.delete('/markers/1', format='json').data
         expected = []
 
         self.assertEqual(actual, expected)

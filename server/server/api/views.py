@@ -7,32 +7,30 @@ from rest_framework.response import Response
 
 from .models import Marker
 
-@api_view(['POST', 'GET'])
-def handle_markers_request(request):
+@api_view(['POST', 'GET', 'DELETE'])
+def handle_markers_request(request, pk=None):
     if request.method == 'POST':
-        Marker.objects.create(
-            latitude=request.data['latitude'],
-            longitude=request.data['longitude'],
-            altitude=request.data['altitude']
-        )
+        create_marker(request)
 
-    # Return all markers in response
-    return Response([{
-            'id': m.id, 
-            'latitude': m.latitude, 
-            'longitude': m.longitude, 
-            'altitude': m.altitude
-        } for m in Marker.objects.all()
-    ])
+    elif request.method == 'DELETE':
+        delete_marker(pk)
 
-@api_view(['DELETE'])
-def delete_marker(request, pk):
+    return get_markers()
+
+def create_marker(request):
+    Marker.objects.create(
+        latitude=request.data['latitude'],
+        longitude=request.data['longitude'],
+        altitude=request.data['altitude']
+    )
+
+def delete_marker(pk):
     filtered_markers = Marker.objects.filter(pk=pk)
 
     if filtered_markers.exists():
         filtered_markers.first().delete()
-    
-    # Return all markers in response
+
+def get_markers():
     return Response([{
             'id': m.id, 
             'latitude': m.latitude, 
@@ -40,10 +38,6 @@ def delete_marker(request, pk):
             'altitude': m.altitude
         } for m in Marker.objects.all()
     ])
-
-@api_view(['GET'])
-def helloworld(request):
-    return Response({'message': 'Hello World!'})
 
 class UserViewSet(viewsets.ModelViewSet):
     """
