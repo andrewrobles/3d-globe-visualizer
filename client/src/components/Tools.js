@@ -48,6 +48,10 @@ export default class Tools extends Component {
         
         this.dropMarkerCallback = this.dropMarkerCallback.bind(this);
         this.toggle = this.toggle.bind(this);
+
+        
+        // console.log(this.props.appState.markers)
+        // this.placeMarkers(this.props.appState.markers)
     }
 
     toggle() {
@@ -88,6 +92,7 @@ export default class Tools extends Component {
     dropMarkerCallback(position) {
         this.createMarker(position)
 
+        
         // Create a placemark using the selected marker image
         let attributes = new WorldWind.PlacemarkAttributes(null);
         attributes.imageScale = 0.8;
@@ -104,7 +109,7 @@ export default class Tools extends Component {
         attributes.imageSource = this.state.selectedMarkerImage;
 
         let placemark = new WorldWind.Placemark(position, /*eyeDistanceScaling*/ true, attributes);
-        placemark.label = "Lat " + position.latitude.toPrecision(4).toString() + "\nLon " + position.longitude.toPrecision(5).toString();
+        placemark.label = "Lat " + position.latitude.toPrecision(4).toString() + "\nLon " + position.longitude.toPrecision(4).toString();
         placemark.altitudeMode = WorldWind.CLAMP_TO_GROUND;
         placemark.eyeDistanceScalingThreshold = 2500000;
 
@@ -121,12 +126,56 @@ export default class Tools extends Component {
             console.warn("Renderable layer for markers not found: "+ this.props.markersLayerName);
         }
     };
+
+    placeMarkers(positions) {
+        for(let i = 0; i < positions.length; i++) {
+            this.placeMarker(positions[i])
+        }
+    }
+
+    placeMarker(position) {
+        // Create a placemark using the selected marker image
+        let attributes = new WorldWind.PlacemarkAttributes(null);
+        attributes.imageScale = 0.8;
+        attributes.imageOffset = new WorldWind.Offset(
+            WorldWind.OFFSET_FRACTION, 0.3,
+            WorldWind.OFFSET_FRACTION, 0.0);
+        attributes.imageColor = WorldWind.Color.WHITE;
+        attributes.labelAttributes.offset = new WorldWind.Offset(
+            WorldWind.OFFSET_FRACTION, 0.5,
+            WorldWind.OFFSET_FRACTION, 1.0);
+        attributes.labelAttributes.color = WorldWind.Color.YELLOW;
+        attributes.drawLeaderLine = true;
+        attributes.leaderLineAttributes.outlineColor = WorldWind.Color.RED;
+        attributes.imageSource = this.state.selectedMarkerImage;
+
+        let placemark = new WorldWind.Placemark(position, /*eyeDistanceScaling*/ true, attributes);
+        placemark.label = "Lat " + position.latitude + "\nLon " + position.longitude;
+        placemark.altitudeMode = WorldWind.CLAMP_TO_GROUND;
+        placemark.eyeDistanceScalingThreshold = 2500000;
+
+        // Add the placemark to the layer and to the Markers component
+        const globe = this.props.globe;
+        const layer = globe.getLayer(this.props.markersLayerName);
+        if (layer) {
+            // Add the placemark to the globe
+            layer.addRenderable(placemark);
+            
+            // Add the placemark to the Markers component
+            this.props.markers.addMarker(placemark);
+        } else {
+            console.warn("Renderable layer for markers not found: "+ this.props.markersLayerName);
+        }
+    }
        
     render() {
         // Wait for the globe to be intialized before rendering this component
         if (!this.props.globe) {
             return null;
         }
+
+        console.log(this.props.appState.markers)
+        this.placeMarkers(this.props.appState.markers)
         
         // Create a tool palette with dropdowns
         const dropdownItems = Tools.pushpins.map((pushpin) => 

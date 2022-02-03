@@ -21,7 +21,8 @@ export default class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      globe: null
+      globe: null,
+      markers: []
     }
     
     this.globeRef = React.createRef()
@@ -32,7 +33,26 @@ export default class App extends Component {
   
   componentDidMount() {
     // Get the component with the WorldWindow after mounting
-    this.setState({globe: this.globeRef.current})
+    this.setState({
+      markers: this.state.markers,
+      globe: this.globeRef.current
+    })
+
+    this.getMarkers()
+  }
+
+  getMarkers() {
+    const url = 'http://localhost:8000/markers/'
+    fetch(url)
+    .then(response => response.json())
+    .then(data => this.saveMarkers(data.results))
+  }
+
+  saveMarkers(markers) {
+    this.setState({
+      globe: this.state.globe,
+      markers: markers
+    })
   }
   
   render() {
@@ -75,7 +95,9 @@ export default class App extends Component {
               <Tools 
                 globe={globe} 
                 markers={this.markersRef.current}
-                markersLayerName='Markers'/>
+                markersLayerName='Markers'
+                appState={this.state}
+              />
           </div>
           <div className='overlayCards noninteractive'>
             <CardColumns>
