@@ -45,7 +45,7 @@ export default class App extends Component {
     const url = 'http://localhost:8000/markers/'
     fetch(url)
     .then(response => response.json())
-    .then(data => this.saveMarkers(data.results))
+    .then(data => this.saveMarkers(data))
   }
 
   saveMarkers(markers) {
