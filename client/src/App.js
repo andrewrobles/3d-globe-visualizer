@@ -42,7 +42,7 @@ export default class App extends Component {
   }
 
   getMarkers() {
-    const url = 'http://localhost:8000/markers/'
+    const url = 'https://andrewrobles.pythonanywhere.com/markers/'
     fetch(url)
     .then(response => response.json())
     .then(data => this.saveMarkers(data))

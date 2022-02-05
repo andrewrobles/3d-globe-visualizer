@@ -71,7 +71,7 @@ export default class Tools extends Component {
     };        
 
     createMarker(position) {
-        const url = 'http://localhost:8000/markers/'
+        const url = 'https://andrewrobles.pythonanywhere.com/markers/'
         const body = {
             latitude: position.latitude.toPrecision(5),
             longitude: position.longitude.toPrecision(5),
@@ -90,7 +90,7 @@ export default class Tools extends Component {
     }
 
     clearMarkers() {    
-        const url = 'http://localhost:8000/markers/'
+        const url = 'https://andrewrobles.pythonanywhere.com/markers/'
     
         fetch(url, {
             method: 'DELETE',
