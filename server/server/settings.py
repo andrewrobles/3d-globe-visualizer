@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['andrewrobles.pythonanywhere.com']
 # Application definition
 
 INSTALLED_APPS = [
+    'server.api.apps.ApiConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

@@ -1,14 +1,52 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework import permissions
-from server.api.serializers import UserSerializer, GroupSerializer
+from server.api.serializers import UserSerializer, GroupSerializer, MarkerSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-@api_view(['GET'])
-def helloworld(request):
-    return Response({'message': 'Hello World!'})
+from .models import Marker
 
+@api_view(['POST', 'GET', 'DELETE'])
+def handle_markers_request(request, pk=None):
+    if request.method == 'POST':
+        create_marker(request)
+
+    elif request.method == 'DELETE':
+        if pk is None:
+            for marker in Marker.objects.all():
+                delete_marker(marker.pk)
+        else:
+            delete_marker(pk)
+
+    return get_markers()
+
+def create_marker(request):
+    Marker.objects.create(
+        latitude=request.data['latitude'],
+        longitude=request.data['longitude'],
+        altitude=request.data['altitude']
+    )
+
+def delete_marker(pk):
+    filtered_markers = Marker.objects.filter(pk=pk)
+
+    if filtered_markers.exists():
+        filtered_markers.first().delete()
+
+def get_markers():
+    return Response([{
+            'id': m.id, 
+            'latitude': m.latitude, 
+            'longitude': m.longitude, 
+            'altitude': m.altitude
+        } for m in Marker.objects.all()
+    ])
+
+class MarkerViewSet(viewsets.ModelViewSet):
+    queryset = Marker.objects.all()
+    serializer_class = MarkerSerializer
+    permission_classes = [permissions.AllowAny]
 
 class UserViewSet(viewsets.ModelViewSet):
     """
