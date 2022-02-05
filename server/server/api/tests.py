@@ -40,3 +40,16 @@ class MarkerTestCase(TestCase):
         expected = []
 
         self.assertEqual(actual, expected)
+
+    def test_clear_markers(self):
+        # Create marker
+        factory = APIClient()
+        request_body = {'latitude': 123.45678, 'longitude': -901.23456, 'altitude': 789.01234}
+
+        factory.post('/markers/', request_body, format='json')
+
+        # Clear markers
+        actual = factory.delete('/markers/', format='json').data
+        expected = []
+
+        self.assertEqual(actual, expected)

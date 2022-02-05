@@ -72,6 +72,27 @@ export default class MarkersCard extends Component {
     console.log(marker)
   }
 
+  clearMarkers() {
+      // Find and remove the marker from the layer and the state array
+      const globe = this.props.globe
+      const layerName = this.props.markersLayerName
+      const markerLayer = globe.getLayer(layerName)
+      const markersCopy = [...this.state.markers]
+      const renderablesCopy = [...markerLayer.renderables]
+
+      let renderableIndex = null
+
+      for (let i = 0, max = markersCopy.length; i < max; i++) {
+          let placemark = renderablesCopy[i]
+          this.deleteMarker(placemark)
+          
+          renderableIndex = markerLayer.renderables.indexOf(placemark)
+          markerLayer.renderables.splice(renderableIndex, 1)
+      }
+      const markers = this.state.markers
+      this.setState({markers: markers})
+  }
+
   removeMarker(marker) {
       // Find and remove the marker from the layer and the state array
       const globe = this.props.globe

@@ -13,7 +13,11 @@ def handle_markers_request(request, pk=None):
         create_marker(request)
 
     elif request.method == 'DELETE':
-        delete_marker(pk)
+        if pk is None:
+            for marker in Marker.objects.all():
+                delete_marker(marker.pk)
+        else:
+            delete_marker(pk)
 
     return get_markers()
 

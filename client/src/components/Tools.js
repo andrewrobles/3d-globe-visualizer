@@ -89,6 +89,25 @@ export default class Tools extends Component {
         .then(data => console.log(data))
     }
 
+    clearMarkers() {    
+        const url = 'http://localhost:8000/markers/'
+    
+        fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => this.props.markers.clearMarkers())
+      }
+
+      saveMarkers(markers) {
+        this.setState({
+          markers: markers
+        })
+      }
+
     dropMarkerCallback(position) {
         this.createMarker(position)
 
@@ -174,7 +193,6 @@ export default class Tools extends Component {
             return null;
         }
 
-        console.log(this.props.appState.markers)
         this.placeMarkers(this.props.appState.markers)
         
         // Create a tool palette with dropdowns
@@ -198,7 +216,7 @@ export default class Tools extends Component {
                     {dropdownItems}
                   </DropdownMenu>
                 </ButtonDropdown>                
-
+                <button onClick={() => this.clearMarkers()}>Clear markers</button>
             </div>
         );
     }

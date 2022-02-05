@@ -11,8 +11,6 @@ import {
   Navbar, 
   NavbarBrand, 
   NavbarToggler, 
-  NavItem, 
-  NavLink, 
   Collapse } from 'reactstrap';
 
 export default class NavBar extends Component {
