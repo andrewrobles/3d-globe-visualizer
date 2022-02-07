@@ -8,8 +8,8 @@ import PropTypes from 'prop-types';
 import FontAwesome from 'react-fontawesome';
 import { 
   NavItem, 
-  NavLink, 
-  Collapse } from 'reactstrap';
+  NavLink
+} from 'reactstrap';
 
 
 export default class NavBarItem extends Component {

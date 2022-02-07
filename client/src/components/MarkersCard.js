@@ -13,7 +13,6 @@ import {
   CardBody, 
   Collapse } from 'reactstrap'
 import Globe from 'worldwind-react-globe'
-import { data, type } from 'jquery'
 
 /**
  * A collapsable Card for managing markers.
