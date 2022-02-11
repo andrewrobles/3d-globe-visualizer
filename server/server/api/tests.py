@@ -8,10 +8,10 @@ from .models import Marker
 class MarkerTestCase(TestCase):
     def test_create_marker(self):
         factory = APIClient()
-        request_body = {'latitude': 123.45678, 'longitude': -901.23456, 'altitude': 789.01234}
+        request_body = {'latitude': 1123.45678, 'longitude': -1901.23456, 'altitude': 1789.01234}
     
         actual = factory.post('/markers/', request_body, format='json').data
-        expected = [{'id': 1, 'latitude': Decimal('123.45678'), 'longitude': Decimal('-901.23456'), 'altitude': Decimal('789.01234')}]
+        expected = [{'id': 1, 'latitude': Decimal('1123.45678'), 'longitude': Decimal('-1901.23456'), 'altitude': Decimal('1789.01234')}]
 
         self.assertEqual(actual, expected)
 
