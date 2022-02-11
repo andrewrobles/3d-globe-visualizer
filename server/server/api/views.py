@@ -13,11 +13,10 @@ def handle_markers_request(request, pk=None):
         create_marker(request)
 
     elif request.method == 'DELETE':
-        if pk is None:
-            for marker in Marker.objects.all():
-                delete_marker(marker.pk)
-        else:
+        if pk is not None:
             delete_marker(pk)
+        else:
+            delete_all_markers()
 
     return get_markers()
 
@@ -33,6 +32,10 @@ def delete_marker(pk):
 
     if filtered_markers.exists():
         filtered_markers.first().delete()
+
+def delete_all_markers():
+    for marker in Marker.objects.all():
+        delete_marker(marker.pk)
 
 def get_markers():
     return Response([{
@@ -55,7 +58,6 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
-
 
 class GroupViewSet(viewsets.ModelViewSet):
     """
