@@ -210,12 +210,6 @@ export default class Tools extends Component {
                     <FontAwesome name='plus'/>
                     <img className={style.image} src={this.state.selectedMarkerImage} alt="Marker"/>
                 </Button>
-                <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                  <DropdownToggle caret className={style.toggle}/>
-                  <DropdownMenu className={style.dropdown}>
-                    {dropdownItems}
-                  </DropdownMenu>
-                </ButtonDropdown>                
                 <button onClick={() => this.clearMarkers()}>Clear markers</button>
             </div>
         );

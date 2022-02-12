@@ -122,27 +122,11 @@ export default class MarkersCard extends Component {
               </button>
           );
       }
-      function EditButton(props) {
-          return (
-              <button type="button" className="btn btn-light" disabled onClick={self.editMarker.bind(self, props.marker)}>
-                <FontAwesome name='edit'/>
-              </button>
-          );
-      }
-      function RemoveButton(props) {
-          return (
-            <button type="button" className="btn btn-light" onClick={(e) => self.removeMarker(props.marker, e)}>
-              <FontAwesome name='trash'/>
-            </button>
-          );
-      }
       function MarkerItem(props) {
           return (
               <li className="list-group-item list-group-item-action p-0">
                   <div className="btn-group" role="group">
                       <GotoButton marker={props.marker}/>
-                      <EditButton marker={props.marker}/>
-                      <RemoveButton marker={props.marker}/>
                   </div>
               </li>                
           );
